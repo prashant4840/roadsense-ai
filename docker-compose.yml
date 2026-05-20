@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: roadsense-ai-api
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=/app/models/accident_risk_model.pkl
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ./models:/app/models:ro
+      - ./backend:/app/backend
+    restart: unless-stopped
+    networks:
+      - roadsense-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+networks:
+  roadsense-network:
+    driver: bridge

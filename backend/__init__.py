@@ -1,0 +1,4 @@
+from .main import app
+from .config import CATEGORICAL_FEATURES, NUMERICAL_FEATURES, MODEL_PATH
+
+__all__ = ['app', 'CATEGORICAL_FEATURES', 'NUMERICAL_FEATURES', 'MODEL_PATH']

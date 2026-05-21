@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import * as Sentry from '@sentry/nextjs';
 
 interface ErrorBoundaryState {
@@ -22,9 +23,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Log error to Sentry
     Sentry.captureException(error, { contexts: { react: errorInfo } });
-    console.error('Error caught by boundary:', error, errorInfo);
   }
 
   handleReset = () => {
@@ -46,12 +45,12 @@ export class ErrorBoundary extends React.Component<
               >
                 Try Again
               </button>
-              <button
-                onClick={() => window.location.href = '/'}
-                className="w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition font-semibold"
+              <Link
+                href="/"
+                className="w-full block bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition font-semibold text-center"
               >
                 Go to Home
-              </button>
+              </Link>
             </div>
             {process.env.NODE_ENV === 'development' && (
               <details className="mt-4 text-left">

@@ -224,3 +224,16 @@ __pycache__/
 models/
 *.pkl
 *.pth
+
+# Node.js & Frontend
+node_modules/
+frontend/node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# macOS system files
+.DS_Store
+.DS_Store?

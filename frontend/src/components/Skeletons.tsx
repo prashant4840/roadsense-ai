@@ -4,7 +4,7 @@ export function FormSkeleton() {
   return (
     <div className="space-y-6 animate-pulse">
       {[...Array(5)].map((_, i) => (
-        <div key={i} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+        <div key={`skeleton-${i}`} className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="grid grid-cols-2 gap-4">
             <div className="h-10 bg-gray-200 rounded"></div>

@@ -32,9 +32,9 @@ export function MapViewer() {
           attribution='&copy; OpenStreetMap contributors'
         />
 
-        {ACCIDENT_HOTSPOTS.map((spot, idx) => (
+        {ACCIDENT_HOTSPOTS.map((spot) => (
           <CircleMarker
-            key={idx}
+            key={`hotspot-${spot.city}`}
             center={[spot.lat, spot.lng]}
             radius={8}
             color={spot.risk === "HIGH" ? "#dc2626" : "#f97316"}

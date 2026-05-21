@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -15,9 +15,9 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="/" className="hover:text-white transition">
+                <Link href="/" className="hover:text-white transition">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="hover:text-white transition">

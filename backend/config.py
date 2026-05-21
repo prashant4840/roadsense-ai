@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 CATEGORICAL_FEATURES = {
     'road_type': ['highway', 'rural', 'urban'],
@@ -17,4 +18,4 @@ NUMERICAL_FEATURES = [
     'is_night'
 ]
 
-MODEL_PATH = os.getenv('MODEL_PATH', '../models/accident_risk_model.pkl')
+MODEL_PATH = os.getenv('MODEL_PATH', str(Path(__file__).parent.parent / 'models' / 'accident_risk_model.pkl'))

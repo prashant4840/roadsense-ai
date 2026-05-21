@@ -57,7 +57,7 @@ class ApiClient {
     }
 
     const apiError = new Error(userMessage);
-    (apiError as any).originalError = error;
+    Object.assign(apiError, { originalError: error });
     throw apiError;
   }
 

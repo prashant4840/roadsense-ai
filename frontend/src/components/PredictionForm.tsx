@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { AccidentData } from "@/types";
+
+import { AccidentData, PredictionResponse } from "@/types";
 import { ROAD_TYPES, WEATHER_CONDITIONS, TRAFFIC_DENSITIES, VISIBILITY_LEVELS } from "@/lib/constants";
 import { usePrediction } from "@/hooks/usePrediction";
 import { useFormState } from "@/hooks/useFormState";
@@ -21,7 +21,7 @@ const DEFAULT_FORM_DATA: AccidentData = {
   visibility: "high",
 };
 
-export function PredictionForm({ onPredict }: { onPredict: (data: any) => void }) {
+export function PredictionForm({ onPredict }: { onPredict: (data: PredictionResponse) => void }) {
   const { formData, handleChange, handleBlur, errors, setErrors, resetForm } = useFormState(
     DEFAULT_FORM_DATA
   );

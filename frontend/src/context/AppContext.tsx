@@ -3,14 +3,14 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { usePrediction } from "@/hooks/usePrediction";
 import { useHealth } from "@/hooks/useHealth";
-import { PredictionResponse } from "@/types";
+import { PredictionResponse, AccidentData } from "@/types";
 
 interface AppContextType {
   prediction: {
     loading: boolean;
     error: string | null;
     result: PredictionResponse | null;
-    predict: (data: any) => Promise<PredictionResponse | null>;
+    predict: (data: AccidentData) => Promise<PredictionResponse | null>;
   };
   health: {
     isHealthy: boolean;

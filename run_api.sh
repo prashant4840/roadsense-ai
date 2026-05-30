@@ -40,11 +40,17 @@ echo "   Docs available at: http://$HOST:$PORT/docs"
 echo "   Health check at: http://$HOST:$PORT/health"
 echo ""
 
+# Use --reload only in development
+RELOAD_FLAG=""
+if [ "${ENV:-development}" = "development" ]; then
+    RELOAD_FLAG="--reload"
+fi
+
 uvicorn backend.main:app \
     --host "$HOST" \
     --port "$PORT" \
     --workers "$WORKERS" \
-    --reload
+    $RELOAD_FLAG
 
 echo ""
 echo "✅ Server started successfully!"

@@ -1,28 +1,34 @@
-# Vercel Configuration
-# Optimize Next.js builds for Vercel
-
-[build]
-  command = "npm run build"
-  functions = "api/**/*.ts"
-  maxLambdaSize = "50mb"
-
-[env]
-  NEXT_PUBLIC_API_URL = "http://localhost:8000"
-  NEXT_PUBLIC_API_URL_PROD = "https://roadsense-api.onrender.com"
-
-[[redirects]]
-  source = "/api/health"
-  destination = "https://roadsense-api.onrender.com/health"
-  statusCode = 200
-
-[[headers]]
-  path = "/_next/static/**"
-  headers = [
-    { key = "Cache-Control", value = "public, max-age=31536000, immutable" }
+{
+  "buildCommand": "npm run build",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "http://localhost:8000",
+    "NEXT_PUBLIC_API_URL_PROD": "https://roadsense-api.onrender.com"
+  },
+  "redirects": [
+    {
+      "source": "/api/health",
+      "destination": "https://roadsense-api.onrender.com/health",
+      "statusCode": 200
+    }
+  ],
+  "headers": [
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
   ]
-
-[[headers]]
-  path = "/fonts/**"
-  headers = [
-    { key = "Cache-Control", value = "public, max-age=31536000, immutable" }
-  ]
+}

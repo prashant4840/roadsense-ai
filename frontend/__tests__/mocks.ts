@@ -15,15 +15,10 @@ export const mockAccidentData: AccidentData = {
 };
 
 export const mockPredictionResponse: PredictionResponse = {
-  risk_level: 0.65,
+  prediction: 'HIGH RISK',
+  risk_level: 1,
   confidence: 0.87,
-  factors: {
-    weather: 0.25,
-    traffic: 0.35,
-    time: 0.15,
-    road_type: 0.15,
-    visibility: 0.1,
-  },
+  timestamp: new Date().toISOString(),
 };
 
 export const mockHealthStatus: HealthStatus = {
@@ -37,6 +32,20 @@ export const mockOfflineHealthStatus: HealthStatus = {
   status: 'offline',
   model_loaded: false,
   model_features: 0,
+  timestamp: new Date().toISOString(),
+};
+
+export const mockHighRiskPredictionResponse: PredictionResponse = {
+  prediction: 'HIGH RISK',
+  risk_level: 1,
+  confidence: 0.92,
+  timestamp: new Date().toISOString(),
+};
+
+export const mockLowRiskPredictionResponse: PredictionResponse = {
+  prediction: 'LOW RISK',
+  risk_level: 0,
+  confidence: 0.78,
   timestamp: new Date().toISOString(),
 };
 

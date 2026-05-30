@@ -77,12 +77,17 @@ export interface ApiResponse<T> {
 
 // Context types
 export interface AppContextType {
-  prediction: PredictionResponse | null;
-  health: HealthStatus | null;
-  predict: (data: AccidentData) => Promise<PredictionResponse | null>;
-  checkHealth: () => Promise<HealthStatus | null>;
-  isLoading: boolean;
-  error: string | null;
+  prediction: {
+    loading: boolean;
+    error: string | null;
+    result: PredictionResponse | null;
+    predict: (data: AccidentData) => Promise<PredictionResponse | null>;
+  };
+  health: {
+    isHealthy: boolean;
+    loading: boolean;
+    status: HealthStatus | null;
+  };
 }
 
 // Window type augmentation

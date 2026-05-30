@@ -15,6 +15,7 @@ interface AppContextType {
   health: {
     isHealthy: boolean;
     loading: boolean;
+    status: ReturnType<typeof useHealth>["status"];
   };
 }
 
@@ -28,7 +29,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider
       value={{
         prediction,
-        health,
+        health: {
+          isHealthy: health.isHealthy,
+          loading: health.loading,
+          status: health.status,
+        },
       }}
     >
       {children}

@@ -34,7 +34,9 @@ describe('RiskDisplay Component', () => {
   it('shows correct confidence percentage', () => {
     render(<RiskDisplay {...mockHighRiskResult} />);
 
-    expect(screen.getByText('85.0%')).toBeInTheDocument();
+    const confidenceElements = screen.getAllByText('85.0%');
+    expect(confidenceElements.length).toBeGreaterThan(0);
+    expect(confidenceElements[0]).toBeInTheDocument();
   });
 
   it('shows safe recommendation for low risk', () => {

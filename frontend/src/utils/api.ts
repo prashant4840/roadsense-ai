@@ -26,9 +26,6 @@ class ApiClient {
   }
 
   private handleError(error: AxiosError<ApiError>) {
-    const message =
-      (error.response?.data?.detail as string) || error.message || "An error occurred";
-
     // Log to Sentry
     Sentry.captureException(error, {
       tags: {
@@ -62,19 +59,15 @@ class ApiClient {
   }
 
   async predict(data: AccidentData): Promise<PredictionResponse> {
-    try {
-      const response = await this.client.post<PredictionResponse>("/predict", data);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await this.client.post<PredictionResponse>("/predict", data);
+    return response.data;
   }
 
   async health(): Promise<HealthStatus> {
     try {
       const response = await this.client.get<HealthStatus>("/health");
       return response.data;
-    } catch (error) {
+    } catch {
       // Return offline status instead of throwing
       return {
         status: "offline",
@@ -114,7 +107,7 @@ export async function retryRequest<T>(
 }
 
 // Request debouncing to prevent duplicate submissions
-export function createDebouncedRequest<T extends any[], R>(
+export function createDebouncedRequest<T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   delay = 300
 ) {

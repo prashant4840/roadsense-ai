@@ -22,7 +22,7 @@ const DEFAULT_FORM_DATA: AccidentData = {
 };
 
 export function PredictionForm({ onPredict }: { onPredict: (data: PredictionResponse) => void }) {
-  const { formData, handleChange, handleBlur, errors, setErrors, resetForm } = useFormState(
+  const { formData, setFormData, handleChange, handleBlur, errors, setErrors, resetForm } = useFormState(
     DEFAULT_FORM_DATA
   );
   const { predict, loading, error: apiError } = usePrediction();
@@ -229,9 +229,7 @@ export function PredictionForm({ onPredict }: { onPredict: (data: PredictionResp
               name="is_peak_hour"
               checked={formData.is_peak_hour === 1}
               onChange={(e) =>
-                handleChange({
-                  target: { name: "is_peak_hour", value: e.target.checked ? "1" : "0" },
-                } as any)
+                setFormData((prev) => ({ ...prev, is_peak_hour: e.target.checked ? 1 : 0 }))
               }
               className="w-4 h-4 rounded border-gray-300 text-blue-600"
             />
@@ -243,9 +241,7 @@ export function PredictionForm({ onPredict }: { onPredict: (data: PredictionResp
               name="is_night"
               checked={formData.is_night === 1}
               onChange={(e) =>
-                handleChange({
-                  target: { name: "is_night", value: e.target.checked ? "1" : "0" },
-                } as any)
+                setFormData((prev) => ({ ...prev, is_night: e.target.checked ? 1 : 0 }))
               }
               className="w-4 h-4 rounded border-gray-300 text-blue-600"
             />

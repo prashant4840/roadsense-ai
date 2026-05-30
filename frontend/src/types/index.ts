@@ -51,7 +51,7 @@ export interface CacheItem<T = unknown> {
 }
 
 // Form state types
-export interface FormData extends AccidentData {}
+export type FormData = AccidentData;
 
 export interface FormErrors {
   [key: string]: string | undefined;

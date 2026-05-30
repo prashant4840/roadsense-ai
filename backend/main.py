@@ -41,12 +41,14 @@ app.add_middleware(
 )
 
 # Load trained model
+model = None
 try:
     model = joblib.load(MODEL_PATH)
     logger.info(f"Model loaded successfully from {MODEL_PATH}")
+except FileNotFoundError:
+    logger.error(f"Model file not found at {MODEL_PATH}. Run training notebook first.")
 except Exception as e:
     logger.error(f"Failed to load model: {e}")
-    raise
 
 
 class AccidentData(BaseModel):
@@ -101,9 +103,9 @@ def health_check():
     Health check endpoint for monitoring API status.
     """
     return {
-        "status": "healthy",
+        "status": "healthy" if model is not None else "degraded",
         "model_loaded": model is not None,
-        "model_features": len(model.feature_names_in_) if model else 0,
+        "model_features": len(model.feature_names_in_) if model is not None else 0,
         "timestamp": datetime.utcnow().isoformat()
     }
 
@@ -123,23 +125,12 @@ def home():
 def predict(data: AccidentData):
     """
     Predict accident risk based on input features.
-
-    Uses the trained Random Forest model to classify accident risk as HIGH or LOW.
-    Feature preprocessing is handled by prepare_inference_data() which ensures
-    proper one-hot encoding and column alignment with model expectations.
-
-    **Input Validation:**
-    - All required fields must be provided
-    - Categorical values must be from allowed set
-    - Numerical values must be within reasonable bounds
-    - Missing or invalid input returns 422 Unprocessable Entity
-
-    **Returns:**
-    - prediction: "HIGH RISK" or "LOW RISK"
-    - risk_level: Numeric prediction (0=LOW, 1=HIGH)
-    - confidence: Model's confidence score (0-1)
-    - timestamp: Server timestamp of prediction
     """
+    if model is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Model not loaded. Please ensure the model file exists and restart the server."
+        )
     try:
         logger.info(f"Prediction request received: hour={data.hour}, weather={data.weather}")
 

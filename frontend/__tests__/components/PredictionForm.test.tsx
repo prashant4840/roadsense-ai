@@ -1,11 +1,11 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PredictionForm } from '@/components/PredictionForm';
-import * as predictionModule from '@/hooks/usePrediction';
+import { useApp } from '@/context/AppContext';
 import * as formStateModule from '@/hooks/useFormState';
 import * as formValidationModule from '@/hooks/useFormValidation';
 
-jest.mock('@/hooks/usePrediction');
+jest.mock('@/context/AppContext');
 jest.mock('@/hooks/useFormState');
 jest.mock('@/hooks/useFormValidation');
 
@@ -41,11 +41,13 @@ describe('PredictionForm Component', () => {
       validateForm: jest.fn().mockReturnValue({}),
     });
 
-    (predictionModule.usePrediction as jest.Mock).mockReturnValue({
-      predict: jest.fn().mockResolvedValue({ risk_level: 0.5, confidence: 0.9 }),
-      loading: false,
-      error: null,
-      result: null,
+    (useApp as jest.Mock).mockReturnValue({
+      prediction: {
+        predict: jest.fn().mockResolvedValue({ risk_level: 0.5, confidence: 0.9 }),
+        loading: false,
+        error: null,
+        result: null,
+      }
     });
   });
 
@@ -85,11 +87,13 @@ describe('PredictionForm Component', () => {
 
   it('submits form with valid data', async () => {
     const mockPredict = jest.fn().mockResolvedValue({ risk_level: 0.6, confidence: 0.88 });
-    (predictionModule.usePrediction as jest.Mock).mockReturnValue({
-      predict: mockPredict,
-      loading: false,
-      error: null,
-      result: null,
+    (useApp as jest.Mock).mockReturnValue({
+      prediction: {
+        predict: mockPredict,
+        loading: false,
+        error: null,
+        result: null,
+      }
     });
 
     const { rerender } = render(<PredictionForm onPredict={mockOnPredict} />);
@@ -101,11 +105,13 @@ describe('PredictionForm Component', () => {
   });
 
   it('displays loading state during prediction', () => {
-    (predictionModule.usePrediction as jest.Mock).mockReturnValue({
-      predict: jest.fn(),
-      loading: true,
-      error: null,
-      result: null,
+    (useApp as jest.Mock).mockReturnValue({
+      prediction: {
+        predict: jest.fn(),
+        loading: true,
+        error: null,
+        result: null,
+      }
     });
 
     render(<PredictionForm onPredict={mockOnPredict} />);
@@ -116,11 +122,13 @@ describe('PredictionForm Component', () => {
 
   it('displays API error message', () => {
     const mockError = 'Network error. Please check your connection.';
-    (predictionModule.usePrediction as jest.Mock).mockReturnValue({
-      predict: jest.fn(),
-      loading: false,
-      error: mockError,
-      result: null,
+    (useApp as jest.Mock).mockReturnValue({
+      prediction: {
+        predict: jest.fn(),
+        loading: false,
+        error: mockError,
+        result: null,
+      }
     });
 
     render(<PredictionForm onPredict={mockOnPredict} />);

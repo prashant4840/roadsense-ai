@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { Header } from '@/components/Header';
-import { useHealth } from '@/hooks/useHealth';
+import { useApp } from '@/context/AppContext';
 
-jest.mock('@/hooks/useHealth');
+jest.mock('@/context/AppContext');
 
 describe('Header Component', () => {
   beforeEach(() => {
@@ -10,7 +10,9 @@ describe('Header Component', () => {
   });
 
   it('renders header with title', () => {
-    (useHealth as jest.Mock).mockReturnValue({ isHealthy: true, loading: false });
+    (useApp as jest.Mock).mockReturnValue({
+      health: { isHealthy: true, loading: false }
+    });
 
     render(<Header />);
 
@@ -19,7 +21,9 @@ describe('Header Component', () => {
   });
 
   it('shows loading state while checking health', () => {
-    (useHealth as jest.Mock).mockReturnValue({ isHealthy: false, loading: true });
+    (useApp as jest.Mock).mockReturnValue({
+      health: { isHealthy: false, loading: true }
+    });
 
     render(<Header />);
 
@@ -27,7 +31,9 @@ describe('Header Component', () => {
   });
 
   it('shows healthy status when API is online', () => {
-    (useHealth as jest.Mock).mockReturnValue({ isHealthy: true, loading: false });
+    (useApp as jest.Mock).mockReturnValue({
+      health: { isHealthy: true, loading: false }
+    });
 
     render(<Header />);
 
@@ -35,7 +41,9 @@ describe('Header Component', () => {
   });
 
   it('shows offline status when API is down', () => {
-    (useHealth as jest.Mock).mockReturnValue({ isHealthy: false, loading: false });
+    (useApp as jest.Mock).mockReturnValue({
+      health: { isHealthy: false, loading: false }
+    });
 
     render(<Header />);
 

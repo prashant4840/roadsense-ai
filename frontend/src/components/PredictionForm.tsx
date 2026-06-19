@@ -3,7 +3,7 @@
 
 import { AccidentData, PredictionResponse } from "@/types";
 import { ROAD_TYPES, WEATHER_CONDITIONS, TRAFFIC_DENSITIES, VISIBILITY_LEVELS } from "@/lib/constants";
-import { usePrediction } from "@/hooks/usePrediction";
+import { useApp } from "@/context/AppContext";
 import { useFormState } from "@/hooks/useFormState";
 import { useFormValidation } from "@/hooks/useFormValidation";
 
@@ -25,7 +25,8 @@ export function PredictionForm({ onPredict }: { onPredict: (data: PredictionResp
   const { formData, setFormData, handleChange, handleBlur, errors, setErrors, resetForm } = useFormState(
     DEFAULT_FORM_DATA
   );
-  const { predict, loading, error: apiError } = usePrediction();
+  const { prediction } = useApp();
+  const { predict, loading, error: apiError } = prediction;
   const { validateForm } = useFormValidation();
 
   const handleSubmit = async (e: React.FormEvent) => {

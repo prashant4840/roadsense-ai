@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError } from "axios";
 import * as Sentry from "@sentry/nextjs";
 import { AccidentData, PredictionResponse, HealthStatus, ApiError } from "@/types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = "/api";
 const REQUEST_TIMEOUT = 15000; // 15 seconds
 
 class ApiClient {

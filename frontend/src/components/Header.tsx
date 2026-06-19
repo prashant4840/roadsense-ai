@@ -1,9 +1,10 @@
 "use client";
 
-import { useHealth } from "@/hooks/useHealth";
+import { useApp } from "@/context/AppContext";
 
 export function Header() {
-  const { isHealthy, loading } = useHealth();
+  const { health } = useApp();
+  const { isHealthy, loading } = health;
 
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">

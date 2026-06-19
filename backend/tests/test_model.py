@@ -1,5 +1,5 @@
 import pytest
-import pickle
+import joblib
 import sys
 import numpy as np
 from pathlib import Path
@@ -14,8 +14,7 @@ def model():
     """Load model once for all tests in this module."""
     if not MODEL_PATH.exists():
         pytest.skip(f"Model file not found at {MODEL_PATH}")
-    with open(MODEL_PATH, "rb") as f:
-        return pickle.load(f)
+    return joblib.load(MODEL_PATH)
 
 
 def test_model_loads(model):

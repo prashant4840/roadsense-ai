@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 import joblib
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 import sys
 
 # Handle imports whether running as module or script
@@ -65,8 +65,8 @@ class AccidentData(BaseModel):
     traffic_density: str = Field(..., description="Traffic density: high, low, or medium")
     visibility: str = Field(..., description="Visibility: high, low, or medium")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "hour": 14,
                 "is_weekend": 0,
@@ -81,6 +81,7 @@ class AccidentData(BaseModel):
                 "visibility": "high"
             }
         }
+    )
 
 
 class PredictionResponse(BaseModel):
@@ -106,7 +107,7 @@ def health_check():
         "status": "healthy" if model is not None else "degraded",
         "model_loaded": model is not None,
         "model_features": len(model.feature_names_in_) if model is not None else 0,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
 
@@ -136,7 +137,7 @@ def predict(data: AccidentData):
 
         # Preprocess input with validation
         df = prepare_inference_data(
-            raw_input=data.dict(),
+            raw_input=data.model_dump(),
             model=model,
             categorical_mappings=CATEGORICAL_FEATURES,
             numerical_features=NUMERICAL_FEATURES
@@ -154,7 +155,7 @@ def predict(data: AccidentData):
             "prediction": result,
             "risk_level": int(prediction),
             "confidence": round(confidence, 4),
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         logger.info(f"Prediction generated: {result} (confidence: {confidence:.4f})")
